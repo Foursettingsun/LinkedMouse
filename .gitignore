@@ -1,0 +1,13 @@
+# This checkout intentionally contains release documentation and images only.
+# Application source is supplied as a separately versioned Release attachment.
+*.exe
+*.zip
+*.7z
+*.pfx
+*.dpapi
+*.log
+node_modules/
+native/
+src/
+.tools/
+.publish/
