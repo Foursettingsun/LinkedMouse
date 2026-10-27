@@ -16,6 +16,9 @@ LinkedMouse 0.1.2 further modifies Capture.cs for preparation probes, physical
 button tracking and persistent background input; Inject.cs for modifier handoff;
 and HideCursor.cs for preallocated cursor resources. These changes are dated
 2026-10-27 in the modified source headers.
+LinkedMouse 0.1.3 further modifies Capture.cs to capture ordered raw motion,
+buttons and wheel without center-based hook deltas, and Native.cs to expose
+raw-message timestamps. These changes are dated 2026-10-28 in their headers.
 Ble.cs in that directory is a reference; LinkedMouse's native Bluetooth transport
 adapts its GATT service/characteristic and reliable write approach, with new
 service UUIDs, an in-process stream, cancellation and bounded receive buffers.

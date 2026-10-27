@@ -11,12 +11,12 @@
   <img alt="Windows" src="https://img.shields.io/badge/Windows-10%20%2F%2011-548BFF?logo=windows&logoColor=white">
   <img alt="Architecture" src="https://img.shields.io/badge/架构-x64-9985E8">
   <img alt="Bluetooth" src="https://img.shields.io/badge/连接-Bluetooth%20LE-ED98C5?logo=bluetooth&logoColor=white">
-  <img alt="Version" src="https://img.shields.io/badge/预览版本-v0.1.2-9985E8">
+  <img alt="Version" src="https://img.shields.io/badge/预览版本-v0.1.3-9985E8">
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-GPL--3.0-548BFF"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/Foursettingsun/LinkedMouse/releases/tag/v0.1.2"><strong>下载 v0.1.2</strong></a> ·
+  <a href="https://github.com/Foursettingsun/LinkedMouse/releases/tag/v0.1.3"><strong>下载 v0.1.3</strong></a> ·
   <a href="#第一次使用">连接步骤</a> ·
   <a href="#vpn-与连接方式">VPN 与连接</a> ·
   <a href="https://github.com/Foursettingsun/LinkedMouse/issues">反馈问题</a>
@@ -30,9 +30,9 @@
 
 | 文件 | 用途 | 下载 |
 | --- | --- | --- |
-| Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.2-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.2/LinkedMouse-0.1.2-setup.exe) |
-| Windows 便携版 | 解压后运行 `LinkedMouse.exe` | [LinkedMouse-0.1.2-portable.zip](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.2/LinkedMouse-0.1.2-portable.zip) |
-| SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.2/SHA256SUMS.txt) |
+| Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.3-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.3/LinkedMouse-0.1.3-setup.exe) |
+| Windows 便携版 | 解压后运行 `LinkedMouse.exe` | [LinkedMouse-0.1.3-portable.zip](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.3/LinkedMouse-0.1.3-portable.zip) |
+| SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.3/SHA256SUMS.txt) |
 
 系统要求：Windows 10 2004（19041）或更高版本 / Windows 11，x64。两端均需支持 Bluetooth LE，至少一端支持 BLE 外围设备广播角色。Wi-Fi Direct 加速另需兼容的无线网卡与驱动。
 
@@ -47,18 +47,17 @@
 
 还提供托盘驻留、开机启动、可信设备自动重连、内存中的最近共享记录，以及连接诊断导出。
 
-## 0.1.2 双向预热与后台输入
+## 0.1.3 边缘起步修复
 
-**两台电脑都退出旧版后升级到 0.1.2，原配对可保留。**
+**两台电脑都从托盘退出旧版后升级至 0.1.3，并保持“双向预热”开启，原配对可保留。** 点窗口关闭只会隐藏到托盘。
 
-- 靠近连接边缘时提前准备虚拟入口，当前电脑继续处理输入；真正越界才提交接管。撤回、过期和旧预热包不会移动副机光标。
-- 输入源维护副机逻辑位置，采用带序号的位置快照；拥堵时覆盖旧位置，保留最终位置、点击顺序和必要修饰键。
-- 返回本机由输入源预测，不等待副机回包；新模式移除固定 250 ms 往返冷却，采用小越界门槛。
-- 在“鼠标与键盘”可开启双向预热，宽度支持自动或手动。两端支持新协议时启用完整优化，旧版本保留基础跨屏。
-- 关闭窗口隐藏到托盘，最小化/隐藏/失焦后刷新原生监听；独立跟踪物理按钮释放，后台输入不依赖再次点击桌面。
-- 增加预热命中/取消、预测返回、位置序号、后台钩子和 Raw Input 注册诊断。
+- 新模式统一使用 Raw Input 相对位移，离开时保留隐藏的本机边缘位置，避免停靠中心后混入旧钩子坐标。
+- 接管先发送不可合并的固定边缘起点，双方确认同一个坐标后再应用移动。确认前的普通位移消耗掉，不会在副机集中补放；按键、点击和修饰键仍按序交接。
+- 副机将最新目标位置与显示过渡分开：边缘保留一个本地刷新间隔，再用一个间隔过渡到最新目标；更新不延长截止时间，进入正常控制后不持续插值。
+- 点击、滚轮及拖动先定位到对应目标，避免在过渡中的错误位置操作。返回预测与副机目标使用同一坐标；断线、锁定或取消会清除旧过渡。
+- 保留最小化、关闭到托盘后的后台监听修复；与旧版连接时使用兼容处理，完整起步修复需两端升级。
 
-按住鼠标按钮时保持在当前电脑，释放后允许跨机；资源管理器跨机拖放不包含在本版。预热和显示时序仍受真实链路影响，详见[验证记录](docs/VALIDATION.md)和[双机验收步骤](docs/TESTING.md)。
+Raw Input 不采用 Windows“增强指针精确度”的加速曲线；如远端速度感觉不同，可在“鼠标与键盘 → 指针速度”调整。短过渡是调度策略，不是已实测的显示延迟保证。物理双机蓝牙和首个可见画面仍需验证，见[验证记录](docs/VALIDATION.md)和[验收步骤](docs/TESTING.md)。
 
 ## 第一次使用
 
@@ -108,7 +107,7 @@ Wi-Fi Direct 与现有上网连接能否并存，以及 VPN/TUN 是否拦截新�
 
 ## 预览版状态
 
-v0.1.2 已通过 30 组原生检查、6 项 Node 测试和 8 个双进程回环场景。真实 Electron 主窗口的 5 个页面、最小化与关闭到托盘后的原生通信、键鼠钩子和 Raw Input 注册检查通过，测试中未点击桌面。
+v0.1.3 已通过 30 组原生检查、6 项 Node 测试和 8 个双进程回环场景。真实 Electron 主窗口的 5 个页面、最小化与关闭到托盘后的原生通信、键鼠钩子和 Raw Input 注册检查通过，测试中未点击桌面。
 
 两台物理电脑之间的实际蓝牙输入、图片粘贴、不同 VPN/TUN 配置及 Wi-Fi Direct 共存仍需联调。尚未完成与 TwinDesk 的同设备性能对照，不预先宣称优于原版。
 
@@ -127,4 +126,4 @@ v0.1.2 已通过 30 组原生检查、6 项 Node 测试和 8 个双进程回环�
 
 应用遵循 [GNU GPL v3.0](LICENSE)。输入模块包含 [TwinDesk](https://github.com/InukaAsith/TwinDesk) 与 [Beamer](https://github.com/kalkman-code/beamer) 的贡献，见 [第三方声明](THIRD_PARTY_NOTICES.md)。
 
-本仓库的 Git 提交仅用于发布介绍、图片和许可说明。对应本版本的完整源码、构建脚本与依赖清单以 [Release 源码压缩包](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.2/LinkedMouse-0.1.2-source.zip) 提供；源码不展开提交到 Git 仓库。
+本仓库的 Git 提交仅用于发布介绍、图片和许可说明。对应本版本的完整源码、构建脚本与依赖清单以 [Release 源码压缩包](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.3/LinkedMouse-0.1.3-source.zip) 提供；源码不展开提交到 Git 仓库。
