@@ -11,12 +11,12 @@
   <img alt="Windows" src="https://img.shields.io/badge/Windows-10%20%2F%2011-548BFF?logo=windows&logoColor=white">
   <img alt="Architecture" src="https://img.shields.io/badge/架构-x64-9985E8">
   <img alt="Bluetooth" src="https://img.shields.io/badge/连接-Bluetooth%20LE-ED98C5?logo=bluetooth&logoColor=white">
-  <img alt="Version" src="https://img.shields.io/badge/预览版本-v0.1.0-9985E8">
+  <img alt="Version" src="https://img.shields.io/badge/预览版本-v0.1.1-9985E8">
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-GPL--3.0-548BFF"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/Foursettingsun/LinkedMouse/releases/tag/v0.1.0"><strong>下载 v0.1.0</strong></a> ·
+  <a href="https://github.com/Foursettingsun/LinkedMouse/releases/tag/v0.1.1"><strong>下载 v0.1.1</strong></a> ·
   <a href="#第一次使用">连接步骤</a> ·
   <a href="#vpn-与连接方式">VPN 与连接</a> ·
   <a href="https://github.com/Foursettingsun/LinkedMouse/issues">反馈问题</a>
@@ -30,9 +30,9 @@
 
 | 文件 | 用途 | 下载 |
 | --- | --- | --- |
-| Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.0-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.0/LinkedMouse-0.1.0-setup.exe) |
-| Windows 便携版 | 解压后运行 `LinkedMouse.exe` | [LinkedMouse-0.1.0-portable.zip](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.0/LinkedMouse-0.1.0-portable.zip) |
-| SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.0/SHA256SUMS.txt) |
+| Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.1-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.1/LinkedMouse-0.1.1-setup.exe) |
+| Windows 便携版 | 解压后运行 `LinkedMouse.exe` | [LinkedMouse-0.1.1-portable.zip](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.1/LinkedMouse-0.1.1-portable.zip) |
+| SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.1/SHA256SUMS.txt) |
 
 系统要求：Windows 10 2004（19041）或更高版本 / Windows 11，x64。两端均需支持 Bluetooth LE，至少一端支持 BLE 外围设备广播角色。Wi-Fi Direct 加速另需兼容的无线网卡与驱动。
 
@@ -46,6 +46,18 @@
 | 文件传输 | 选择或拖入文件、文件夹；接收确认、进度、取消、重新发送、同名保护与 SHA-256 校验。 |
 
 还提供托盘驻留、开机启动、可信设备自动重连、内存中的最近共享记录，以及连接诊断导出。
+
+## 0.1.1 跨屏修复
+
+**两台电脑都退出旧版并升级到 0.1.1，原配对身份可以保留。**
+
+- 接管与移动按序发送，移动不再等待确认回包；确认到达时不补发历史位移。
+- 副机从边缘建立本轮逻辑坐标，并检查定位请求和实际落点；定位失败、拒绝或超时会恢复本机。
+- 拥堵时普通移动按短窗口合并，清理过期的未发送移动；点击、按键前的移动和按住按钮的拖拽保留顺序，拖拽保留完整距离。
+- BLE 图片和文件分块按 ATT 能力缩小，减少一个数据包阻挡输入的时间。
+- 诊断增加最近 64 次切换的方向、落点、确认时间、首个移动入队/处理时间与结束原因，以及队列合并、过期计数。
+
+诊断还会单独记录触边推力耗时，便于区分边缘阻力与链路等待。这些时序分别使用本机时钟，不等于端到端显示延迟。真实双机 BLE、VPN/TUN 场景仍待实测。详见[验证记录](docs/VALIDATION.md)和[双机验收步骤](docs/TESTING.md)。
 
 ## 第一次使用
 
@@ -95,7 +107,7 @@ Wi-Fi Direct 与现有上网连接能否并存，以及 VPN/TUN 是否拦截新�
 
 ## 预览版状态
 
-v0.1.0 已通过原生核心自检、双进程回环集成、界面与打包检查；开发电脑的真实蓝牙广播和扫描初始化已通过。
+v0.1.1 已通过 21 组原生检查（含新增的跨屏回归）、4 项界面通信测试和 7 个双进程回环场景；跨屏回归包含人为延迟、不同缩放、定位失败、拖拽和真实 TLS 上的拥堵顺序检查。测试结果与物理设备联调状态分别列出。
 
 两台物理电脑之间的实际蓝牙输入、图片粘贴、不同 VPN/TUN 配置及 Wi-Fi Direct 共存仍需联调。尚未完成与 TwinDesk 的同设备性能对照，不预先宣称优于原版。
 
@@ -114,4 +126,4 @@ v0.1.0 已通过原生核心自检、双进程回环集成、界面与打包检�
 
 应用遵循 [GNU GPL v3.0](LICENSE)。输入模块包含 [TwinDesk](https://github.com/InukaAsith/TwinDesk) 与 [Beamer](https://github.com/kalkman-code/beamer) 的贡献，见 [第三方声明](THIRD_PARTY_NOTICES.md)。
 
-本仓库的 Git 提交仅用于发布介绍、图片和许可说明。对应本版本的完整源码、构建脚本与依赖清单以 [Release 源码压缩包](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.0/LinkedMouse-0.1.0-source.zip) 提供；源码不展开提交到 Git 仓库。
+本仓库的 Git 提交仅用于发布介绍、图片和许可说明。对应本版本的完整源码、构建脚本与依赖清单以 [Release 源码压缩包](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.1/LinkedMouse-0.1.1-source.zip) 提供；源码不展开提交到 Git 仓库。

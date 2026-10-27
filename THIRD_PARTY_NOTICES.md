@@ -9,6 +9,9 @@ Pinned source commit: 129e97cf19155809263c73a5ef1e201b9f8cc13d.
 Capture.cs and Inject.cs include portions adapted from Beamer,
 Copyright (C) Kalkman Code, GPL-3.0: https://github.com/kalkman-code/beamer.
 Original source headers and the upstream THIRD_PARTY_NOTICES are preserved.
+LinkedMouse 0.1.1 modifies Capture.cs to observe marked landing injections,
+Inject.cs to check cursor placement and keep a per-route logical position,
+and Screens.cs to allow isolated replay of monitor geometry.
 Ble.cs in that directory is a reference; LinkedMouse's native Bluetooth transport
 adapts its GATT service/characteristic and reliable write approach, with new
 service UUIDs, an in-process stream, cancellation and bounded receive buffers.
