@@ -12,6 +12,10 @@ Original source headers and the upstream THIRD_PARTY_NOTICES are preserved.
 LinkedMouse 0.1.1 modifies Capture.cs to observe marked landing injections,
 Inject.cs to check cursor placement and keep a per-route logical position,
 and Screens.cs to allow isolated replay of monitor geometry.
+LinkedMouse 0.1.2 further modifies Capture.cs for preparation probes, physical
+button tracking and persistent background input; Inject.cs for modifier handoff;
+and HideCursor.cs for preallocated cursor resources. These changes are dated
+2026-10-27 in the modified source headers.
 Ble.cs in that directory is a reference; LinkedMouse's native Bluetooth transport
 adapts its GATT service/characteristic and reliable write approach, with new
 service UUIDs, an in-process stream, cancellation and bounded receive buffers.
