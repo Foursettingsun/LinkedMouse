@@ -48,3 +48,7 @@ Electron and its Chromium/Node.js components have their own licenses, which are
 included in the built application's runtime distribution. electron-builder is MIT.
 .NET and Windows SDK projection libraries retain their upstream license notices
 in the published engine distribution.
+
+LinkedMouse 0.1.8 updates the adapted HUD to Chinese state text, physical-layout
+direction, top placement, visible-frame timing and paired return events. The
+continuous joined gradient trail is a new painter change (2026-10-29).
