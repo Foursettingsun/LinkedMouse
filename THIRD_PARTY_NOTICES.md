@@ -33,6 +33,14 @@ Ble.cs in that directory is a reference; LinkedMouse's native Bluetooth transpor
 adapts its GATT service/characteristic and reliable write approach, with new
 service UUIDs, an in-process stream, cancellation and bounded receive buffers.
 
+LinkedMouse 0.1.7 further modifies Capture.cs for input-host suspend/resume,
+logical-unit resistance and marked input diagnostics, and HideCursor.cs for
+ownership-aware emergency restoration without broadcasting (2026-10-28).
+The English screen-notification behavior and layout/animation in
+src/main/hud-controller.cjs and src/ui/hud* are adapted from TwinDesk windows/hud*.
+Original copyright and GPL-3.0 attribution are retained; the blue/pink palette,
+event ordering, asynchronous loading and timer isolation are LinkedMouse changes.
+
 Original LinkedMouse code and modifications: Copyright (C) 2026 LinkedMouse contributors.
 The icon and interface assets were created for LinkedMouse.
 
