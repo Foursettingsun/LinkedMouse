@@ -23,6 +23,9 @@ LinkedMouse 0.1.4 further modifies Capture.cs for health-based hook/raw-input
 recovery and Native.cs for registered raw-device queries (2026-10-28).
 PointerEffects.cs adapts the edge-glow/ring concept from TwinDesk Flash.cs;
 its blue/pink painter, one-second trail and separate visual thread are new.
+LinkedMouse 0.1.5 compares the effect against the preserved Flash.cs, restores
+its edge/ring timing in blue/pink, and uses a new native premultiplied-alpha
+DIB surface instead of the previous Form/GetHbitmap path (2026-10-28).
 Ble.cs in that directory is a reference; LinkedMouse's native Bluetooth transport
 adapts its GATT service/characteristic and reliable write approach, with new
 service UUIDs, an in-process stream, cancellation and bounded receive buffers.

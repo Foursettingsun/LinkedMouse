@@ -1,4 +1,39 @@
-# 0.1.4 验证记录
+# 0.1.5 验证记录
+
+日期：2026-10-28，单台 Windows 11 x64。本版将真实显示合成加入验收，旧版仅验证隐藏窗口不足以排除白块错误。
+
+## 白块复现与原项目对照
+
+在同一个不抢焦点的受控窗口上，透明位置底色为 RGB `37,51,67`：
+
+| 实现 | 显示后该透明位置 | 结果 |
+| --- | --- | --- |
+| 原项目 Flash.cs | `37,51,67` | 底色保持 |
+| LinkedMouse 0.1.4 图层 | `255,255,255` | 复现白色矩形 |
+| LinkedMouse 0.1.5 原生 Alpha 图层 | `37,51,67` | 底色保持 |
+
+对照在 200% 缩放下进行；0.1.4 图层请求宽度 360/460/320 时均复现白底。原项目用法与旧适配的位图提交路径不同；新实现直接把预乘 BGRA 像素提交到原生分层窗口，避免背景颜色转换和 Form 显示流程。
+
+## 已通过
+
+- 自包含 Release 构建、47 组核心自检；开发构建 0 错误、0 警告。
+- 新增透明缓冲测试：多次伸缩后空白像素 Alpha 为 0，颜色保持预乘 BGRA，实际窗口大小与请求的物理像素一致。
+- 双向物理输入源的控制器回放、预测返回、手动按钮/快捷键返回成对触发到达/退出，旧包与故障重置不播放完成动画。
+- 绘制失败与输入隔离，并在下一次真实切换重建图层；回归覆盖恢复仍在队列时的检查顺序。
+- 16 个独立的真实显示场景：桌面透明层、三种深浅底色的普通窗口、显示/隐藏与 360/500/320 宽度、强制重绘、蓝/粉半透明与不透明像素、伸缩后的旧区域清理、DPI 消息、真实生产绘制线程的到达/退出和错误后再到达。
+- 实显检查使用 `BitBlt + CAPTUREBLT` 及 DWM 同步，既验证不透明标记确实在上层，也验证透明位置保持底色、半透明颜色符合混合值。实际 DPI 为 192（200%）；100 次伸缩前后 GDI 计数为 24→24，前台窗口保持，没有注入鼠标/键盘事件。
+- 截图仅保存完全由测试窗口覆盖的区域；未保存其他应用内容。图库为真实单机合成截图，不是物理双机录像。
+- 11 项 Node、8 个原生双进程回环通过；包含 100 次后台健康请求保留连接/PID/注册。真实 Electron 5 页与已连接窗口的一次最小化、20 次关闭到托盘回归通过。
+
+执行实显命令：`native/publish/LinkedMouse.Engine.exe --effects-composition-test artifacts/effects-composition-0.1.5`。这会短暂显示不激活、鼠标穿透的测试底板与图层，不安装输入钩子或移动鼠标。普通 `--self-test` 不显示这些窗口。
+
+诊断 `input.effects` 包含 `arrivals/departures/recoveries/lastDirection/lastError/lastWin32Error/systemAnimations`。输入、网络与特效仍分线程运行。
+
+实现参考：[UpdateLayeredWindow](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-updatelayeredwindow)、[CreateDIBSection](https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createdibsection)。
+
+尚未执行：两台物理电脑的 BLE 回程和可见轨迹、其他显卡/HDR/混合显示器组合、长期后台跨屏与 VPN/TUN/Wi-Fi Direct 共存。完整验收需两端退出旧版后更新到 0.1.5。
+
+## 0.1.4 历史验证
 
 日期：2026-10-28。环境：单台 Windows 11 x64。以下将隔离回放、真实进程/窗口检查与待执行的物理双机测试分开。
 

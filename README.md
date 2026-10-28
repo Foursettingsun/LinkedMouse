@@ -11,12 +11,12 @@
   <img alt="Windows" src="https://img.shields.io/badge/Windows-10%20%2F%2011-548BFF?logo=windows&logoColor=white">
   <img alt="Architecture" src="https://img.shields.io/badge/架构-x64-9985E8">
   <img alt="Bluetooth" src="https://img.shields.io/badge/连接-Bluetooth%20LE-ED98C5?logo=bluetooth&logoColor=white">
-  <img alt="Version" src="https://img.shields.io/badge/预览版本-v0.1.4-9985E8">
+  <img alt="Version" src="https://img.shields.io/badge/预览版本-v0.1.5-9985E8">
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-GPL--3.0-548BFF"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/Foursettingsun/LinkedMouse/releases/tag/v0.1.4"><strong>下载 v0.1.4</strong></a> ·
+  <a href="https://github.com/Foursettingsun/LinkedMouse/releases/tag/v0.1.5"><strong>下载 v0.1.5</strong></a> ·
   <a href="#第一次使用">连接步骤</a> ·
   <a href="#vpn-与连接方式">VPN 与连接</a> ·
   <a href="https://github.com/Foursettingsun/LinkedMouse/issues">反馈问题</a>
@@ -30,9 +30,9 @@
 
 | 文件 | 用途 | 下载 |
 | --- | --- | --- |
-| Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.4-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.4/LinkedMouse-0.1.4-setup.exe) |
-| Windows 便携版 | 解压后运行 `LinkedMouse.exe` | [LinkedMouse-0.1.4-portable.zip](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.4/LinkedMouse-0.1.4-portable.zip) |
-| SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.4/SHA256SUMS.txt) |
+| Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.5-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.5/LinkedMouse-0.1.5-setup.exe) |
+| Windows 便携版 | 解压后运行 `LinkedMouse.exe` | [LinkedMouse-0.1.5-portable.zip](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.5/LinkedMouse-0.1.5-portable.zip) |
+| SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.5/SHA256SUMS.txt) |
 
 系统要求：Windows 10 2004（19041）或更高版本 / Windows 11，x64。两端均需支持 Bluetooth LE，至少一端支持 BLE 外围设备广播角色。Wi-Fi Direct 加速另需兼容的无线网卡与驱动。
 
@@ -47,19 +47,18 @@
 
 还提供托盘驻留、开机启动、可信设备自动重连、内存中的最近共享记录，以及连接诊断导出。
 
-## 0.1.4 快移、后台稳定性与蓝粉特效
+## 0.1.5 透明特效与回程动画修复
 
-**两端都从托盘退出旧版，再启动 0.1.4，核对界面页脚/偏好设置版本。** 关闭窗口会保留后台；直接启动新版时若旧核心仍在运行，会提示先退出，避免误测旧版。配对身份保留。
+**两端都从托盘退出旧版，再启动 0.1.5。** 0.1.4 的透明图层存在白色矩形问题，混用旧版不能完整修复；配对身份和个人设置保留。
 
-- 快移起步按显示距离逐步接近最新目标，定时器晚到也不按截止时间瞬间追到远处；进入正常控制后继续使用原速度倍率。现代协议返回本机也从边缘起步，不补放返回边界包的剩余位移。
-- 键鼠采集、WM_INPUT、定位和计时运行在独立原生 STA；网络心跳独立调度。窗口失焦不改动监听，最小化/关闭到托盘只请求健康检查，不重置健康连接或控制权。
-- 检查真实 Raw Input 注册、事件计数与输入线程心跳；异常重建先成功安装新钩子再释放旧钩子，失败保留旧资源。核心无响应时恢复核心，连接恢复遵循原自动重连设置。
-- 主屏→副屏、副屏→主屏都有蓝粉边缘光晕与收拢/扩散光圈；预热期间不显示。接管后 1 秒内绘制短暂淡出拖尾，快速返回时清除上一屏旧效果。
-- 特效使用独立绘制线程和鼠标穿透、不激活的透明覆盖层；只接收最新坐标，绘制失败单独停用效果。可在“鼠标与键盘 → 跨屏视觉效果”分别关闭动画和拖尾；遵循 Windows 动画效果设置。
+- 复现并修复透明像素提交错误：效果层改用原生窗口和直接预乘 Alpha DIB，不经过会改变透明背景的位图句柄转换，也不让 WinForms 显示/缩放流程改写效果层。
+- 对照 TwinDesk 的 `Flash.cs`，沿用边缘柔光、离开收拢/进入扩散及淡出节奏，统一蓝粉渐变；柔光改成连续透明渐变，保留接管后 1 秒短拖尾。
+- 主机→副机、副机→主机、快速预测返回、手动“返回本机”和快捷键返回均补充触发/回归检查；手动返回同时通知离开端播放退出效果，旧包不重播。
+- 一次绘制错误不再永久关闭后续到达动画：下一次真实切换会重建图层；输入保持独立运行，诊断新增到达/离开、重建及原生错误信息。
 
-完整优化需两端 0.1.4，双向预热保持开启。确认前的普通位移不回放；点击、滚轮和拖动保留位置顺序。Raw Input 不采用 Windows 鼠标加速曲线，远端倍率可通过“指针速度”调整。
+本机实际显示验证覆盖桌面、深浅色窗口、显示/隐藏、伸缩与 DPI 消息、蓝粉 Alpha 混合和绘制故障后的返回到达。47 组核心、11 项 Node、8 个双进程回环和 16 个实显合成场景通过。物理双机 BLE 路径和不同显卡仍需验收，见[验证记录](docs/VALIDATION.md)与[验收步骤](docs/TESTING.md)。
 
-45 组原生检查、11 项 Node 测试、8 个双进程回环场景及真实 Electron 窗口检查通过；包含 100 次后台健康请求、已连接窗口的最小化与 20 次关闭到托盘。物理双机蓝牙首个可见位置、长期后台手感及 VPN/TUN 仍需验收，见[验证记录](docs/VALIDATION.md)和[验收步骤](docs/TESTING.md)。
+双向预热与动画/拖尾开关保持开启即可。特效遵循 Windows 动画设置；旧版配对可继续使用。
 
 ## 第一次使用
 
@@ -89,7 +88,7 @@ Wi-Fi Direct 与现有上网连接能否并存，以及 VPN/TUN 是否拦截新�
 <details>
 <summary>双向切换与 1 秒拖尾效果示意</summary>
 
-离开端收拢，接管端扩散；以下为应用同一绘制器生成的静态示意，不是实际双机录屏。
+离开端收拢，接管端扩散；以下为本机 200% 缩放下，应用实际绘制线程覆盖在受控测试窗口上的合成截图；不是物理双机录屏。
 
 ![离开端蓝粉光晕](docs/images/departure.png)
 ![进入端蓝粉光圈](docs/images/arrival.png)
@@ -120,7 +119,7 @@ Wi-Fi Direct 与现有上网连接能否并存，以及 VPN/TUN 是否拦截新�
 
 ## 预览版状态
 
-v0.1.4 已通过 45 组原生检查、11 项 Node 测试和 8 个双进程回环场景。真实 Electron 主窗口的 5 个页面、与另一原生进程配对后的最小化及 20 次关闭到托盘检查通过，连接与进程保持，未点击桌面。
+v0.1.5 已通过 47 组核心、11 项 Node、8 个原生双进程回环、真实 Electron 窗口与 16 个实显合成场景。实显覆盖普通窗口上的透明与半透明像素，200% 缩放下的伸缩/重绘，及真实绘制线程的到达、退出和故障恢复。
 
 两台物理电脑之间的实际蓝牙输入、图片粘贴、不同 VPN/TUN 配置及 Wi-Fi Direct 共存仍需联调。尚未完成与 TwinDesk 的同设备性能对照，不预先宣称优于原版。
 
@@ -139,4 +138,4 @@ v0.1.4 已通过 45 组原生检查、11 项 Node 测试和 8 个双进程回环
 
 应用遵循 [GNU GPL v3.0](LICENSE)。输入模块包含 [TwinDesk](https://github.com/InukaAsith/TwinDesk) 与 [Beamer](https://github.com/kalkman-code/beamer) 的贡献，见 [第三方声明](THIRD_PARTY_NOTICES.md)。
 
-本仓库的 Git 提交仅用于发布介绍、图片和许可说明。对应本版本的完整源码、构建脚本与依赖清单以 [Release 源码压缩包](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.4/LinkedMouse-0.1.4-source.zip) 提供；源码不展开提交到 Git 仓库。
+本仓库的 Git 提交仅用于发布介绍、图片和许可说明。对应本版本的完整源码、构建脚本与依赖清单以 [Release 源码压缩包](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.5/LinkedMouse-0.1.5-source.zip) 提供；源码不展开提交到 Git 仓库。
