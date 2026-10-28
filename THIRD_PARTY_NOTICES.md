@@ -19,6 +19,10 @@ and HideCursor.cs for preallocated cursor resources. These changes are dated
 LinkedMouse 0.1.3 further modifies Capture.cs to capture ordered raw motion,
 buttons and wheel without center-based hook deltas, and Native.cs to expose
 raw-message timestamps. These changes are dated 2026-10-28 in their headers.
+LinkedMouse 0.1.4 further modifies Capture.cs for health-based hook/raw-input
+recovery and Native.cs for registered raw-device queries (2026-10-28).
+PointerEffects.cs adapts the edge-glow/ring concept from TwinDesk Flash.cs;
+its blue/pink painter, one-second trail and separate visual thread are new.
 Ble.cs in that directory is a reference; LinkedMouse's native Bluetooth transport
 adapts its GATT service/characteristic and reliable write approach, with new
 service UUIDs, an in-process stream, cancellation and bounded receive buffers.
