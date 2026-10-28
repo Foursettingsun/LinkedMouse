@@ -1,4 +1,33 @@
-# 0.1.5 验证记录
+# 0.1.6 光标可见性验证
+
+日期：2026-10-28，单台 Windows 11 x64，实际 DPI 192（200%）。
+
+## 原因与修复
+
+控制器原先在接收端返回时只清理输入注入，没有独立管理该屏幕的空闲光标，留下边缘残影。停放窗口也没有处理自己的 WM_SETCURSOR。实显检查另外复现：后台线程调用 SetCursor(NULL)，Windows 当前显示光标仍可能保持 CURSOR_SHOWING=1，窗口命中已是停放窗口，指针位置保持。
+
+新实现处理停放窗口光标消息，选择透明光标后移除指针，并发送一次带既有 MARK 的零位移 MOVE 刷新系统光标归属；输入钩子和 Raw Input 已忽略该标记。不会引入坐标移动、鼠标按钮或按键。没有使用 AttachThreadInput、ShowCursor 计数循环或窗口激活。
+
+离开接收屏幕后隐藏状态与本次可信控制会话绑定；预热不显示，真实到达或本机实体活动时恢复。连接与策略失效会释放状态，独立采集线程的存活计时也覆盖此状态。
+
+## 已通过
+
+- 51 组核心自检。新增 4 组覆盖原生窗口消息的箭头/手型/文本/尺寸光标、边缘命中、不激活、100 次重复隐藏/释放、停放窗口物理尺寸及销毁释放。
+- 控制器回放覆盖 A 驱动 A→B→A、B 驱动 B→A→B、手动返回、预测返回、旧协议边缘返回、过期包隔离；预热及后台检查保持离开端隐藏，实际到达恢复。
+- 本机物理输入回调恢复光标且不调用位置写入；断线、锁定、鼠标禁用、会话关闭、存活计时到期和退出清理隐藏状态。
+- `--cursor-visibility-test` 的 21 个实际 Windows 场景，三个独立进程均通过。覆盖后台已有空光标状态、32/64/128 像素自定义光标、客户区与四侧非客户区的 WM_SETCURSOR、定期刷新、正常返回和旧消息。以 GetCursorInfo.flags 的 CURSOR_SHOWING 位验证完整隐藏；hCursor 可能保留历史句柄，不能单独用它判断。
+- 每次实际检查的零位移刷新成功 1 次、失败 0 次；位置与前台窗口保持，没有发送点击或按键，没有更改系统光标方案。测试会在现有指针下短暂显示不激活的停放窗口，并隐藏/恢复光标；不截图其他应用。
+- 11 项 Node、8 个真实双进程回环通过；真实 Electron 五页、一次最小化及 20 次关闭到托盘通过，连接/PID/注册及输入与特效线程保持。
+
+显隐检查命令：`native/publish/LinkedMouse.Engine.exe --cursor-visibility-test`。普通 `--self-test` 将光标设置动作隔离，不改变桌面光标。真实测试应在指针保持静止时执行；测试结束恢复原显示状态。
+
+诊断包含 `input.inactiveCursorHidden`、`background.idleCursorHidden/cursorSuppressed/cursorRefreshes/cursorRefreshFailures`。
+
+接口依据：[SetCursor](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setcursor)、[WM_SETCURSOR](https://learn.microsoft.com/en-us/windows/win32/menurc/wm-setcursor)、[CURSORINFO](https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-cursorinfo)。
+
+尚未执行：两台物理电脑的 BLE 进出与实体鼠标首个移动/点击、其他缩放/显示器/显卡组合、长期驻留与 VPN 共存。本机回放与显隐检查不替代这些验收。
+
+## 0.1.5 历史验证
 
 日期：2026-10-28，单台 Windows 11 x64。本版将真实显示合成加入验收，旧版仅验证隐藏窗口不足以排除白块错误。
 

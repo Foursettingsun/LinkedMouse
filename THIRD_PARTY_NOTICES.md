@@ -26,6 +26,9 @@ its blue/pink painter, one-second trail and separate visual thread are new.
 LinkedMouse 0.1.5 compares the effect against the preserved Flash.cs, restores
 its edge/ring timing in blue/pink, and uses a new native premultiplied-alpha
 DIB surface instead of the previous Form/GetHbitmap path (2026-10-28).
+LinkedMouse 0.1.6 further modifies Capture.cs for inactive receiving-screen cursor
+visibility and first-local-input restoration, and ParkPad.cs for explicit cursor
+suppression, same-position marked mouse-queue refresh and restoration (2026-10-28).
 Ble.cs in that directory is a reference; LinkedMouse's native Bluetooth transport
 adapts its GATT service/characteristic and reliable write approach, with new
 service UUIDs, an in-process stream, cancellation and bounded receive buffers.
