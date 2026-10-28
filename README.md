@@ -11,12 +11,12 @@
   <img alt="Windows" src="https://img.shields.io/badge/Windows-10%20%2F%2011-548BFF?logo=windows&logoColor=white">
   <img alt="Architecture" src="https://img.shields.io/badge/架构-x64-9985E8">
   <img alt="Bluetooth" src="https://img.shields.io/badge/连接-Bluetooth%20LE-ED98C5?logo=bluetooth&logoColor=white">
-  <img alt="Version" src="https://img.shields.io/badge/预览版本-v0.1.8-9985E8">
+  <img alt="Version" src="https://img.shields.io/badge/预览版本-v0.1.9-9985E8">
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-GPL--3.0-548BFF"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/Foursettingsun/LinkedMouse/releases/tag/v0.1.8"><strong>下载 v0.1.8</strong></a> ·
+  <a href="https://github.com/Foursettingsun/LinkedMouse/releases/tag/v0.1.9"><strong>下载 v0.1.9</strong></a> ·
   <a href="#第一次使用">连接步骤</a> ·
   <a href="#vpn-与连接方式">VPN 与连接</a> ·
   <a href="https://github.com/Foursettingsun/LinkedMouse/issues">反馈问题</a>
@@ -30,9 +30,9 @@
 
 | 文件 | 用途 | 下载 |
 | --- | --- | --- |
-| Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.8-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.8/LinkedMouse-0.1.8-setup.exe) |
-| Windows 便携版 | 解压后运行 `LinkedMouse.exe` | [LinkedMouse-0.1.8-portable.zip](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.8/LinkedMouse-0.1.8-portable.zip) |
-| SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.8/SHA256SUMS.txt) |
+| Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.9-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.9/LinkedMouse-0.1.9-setup.exe) |
+| Windows 便携版 | 解压后运行 `LinkedMouse.exe` | [LinkedMouse-0.1.9-portable.zip](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.9/LinkedMouse-0.1.9-portable.zip) |
+| SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.9/SHA256SUMS.txt) |
 
 系统要求：Windows 10 2004（19041）或更高版本 / Windows 11，x64。两端均需支持 Bluetooth LE，至少一端支持 BLE 外围设备广播角色。Wi-Fi Direct 加速另需兼容的无线网卡与驱动。
 
@@ -47,19 +47,16 @@
 
 还提供托盘驻留、开机启动、可信设备自动重连、内存中的最近共享记录，以及连接诊断导出。
 
-## 0.1.8 系统动画、双向顶部提示与连续拖尾
+## 0.1.9 胶囊底边、真实文件拖入与圆周拖尾
 
-**两端从托盘退出旧版后升级到 0.1.8。** 配对和个人设置保留。
+**两端从托盘退出旧版后升级到 0.1.9。** 配对和个人设置保留。
 
-- 安装时检查当前 Windows 用户的动画效果，关闭时自动开启并提示，已开启则不提示。静默安装的提示留到首次打开；便携版首次运行也检查一次，之后保留用户自行修改的系统设置。
-- “本机输入接管”默认关闭，可在“鼠标与键盘”开启；关闭时，操作接收电脑自己的键鼠不会结束对端控制，也不取消预热或拒绝接管。
-- 进入和返回均在两端显示顶部居中的胶囊。往返仅使用“控制另一电脑中 / 此电脑被控制中”两句，按指针离开或进入方向展示，不改变底层控制权状态。
-- 双屏图标按左右/上下布局排列，白点按实际越界方向移动；窗口显示后才启动动画，重复事件明确重播，提示停留时间从可见帧计时。
-- 主机离屏光晕与接管确认同步，减少慢链路下提前播完的情况；进入/离开光晕继续使用原生透明图层。
-- 拖尾改为整条曲线与连续蓝粉渐隐，避免逐段圆头叠加成亮节；快速稀疏位移保持相连，轨迹长度和绘制面积有界，接管后 1 秒结束。
-- 完成的文件任务增加“在文件管理器中打开”；收到的文件可确认后移到回收站，使用实际保存路径。发送端原文件保留，另提供“移除记录”。
+- 去掉提示胶囊被透明窗口底边裁切的外阴影，消除底部淡横线；蓝粉胶囊、顶部位置和双向中文提示保留。浅色、深色主题的窗口底部三行均为完全透明。
+- 修复真实文件拖入后没有发送的问题：在界面中将 FileList 转为普通 File 数组后再通过隔离桥，保留磁盘路径；支持多文件、中文名、空文件及嵌套/空文件夹，成功或失败均给出反馈。接收仍需确认。
+- 圆周拖尾按曲线长度渐隐，避免直线渐变在转弯、近闭环处重复成明暗条带；相邻段不叠加透明度。保留帧间有界轨迹，连续插值裁去过期尾部，减少快速画圆被压成短直线或尾部整段消失。
+- 拖尾只在接管后的 1 秒显示，绘制和短时轨迹处理在独立线程，不给实际鼠标移动添加平滑延迟。Windows 动画初始化、双向胶囊、文件定位/回收站删除及默认关闭的本机输入接管继续提供。
 
-67 组原生、20 项 Node、9 个双进程回环及真实界面检查通过。详情见[验证记录](docs/VALIDATION.md)和[双机验收](docs/TESTING.md)。本机检查不替代物理双机蓝牙与长期运行验收。
+70 组原生、20 项 Node、9 个双进程回环通过；真实拖入事件经过界面和两端核心完成接收与逐字节校验。验证范围见[记录](docs/VALIDATION.md)，双机手感仍需[实机验收](docs/TESTING.md)。
 
 ## 第一次使用
 
@@ -89,11 +86,11 @@ Wi-Fi Direct 与现有上网连接能否并存，以及 VPN/TUN 是否拦截新�
 <details>
 <summary>双向切换与 1 秒拖尾效果示意</summary>
 
-离开端收拢，接管端扩散。下图为 0.1.8 在单机 200% 缩放下的真实控制器与绘制线程回放：左右两块受控区域分别表示两端，并包含返回方向。拖尾图同样来自本机真实合成；这些图片不是物理双机录屏。
+离开端收拢，接管端扩散。下图为 0.1.9 在单机 200% 缩放下的真实控制器与绘制线程回放：左右两块受控区域分别表示两端，并包含返回方向。拖尾图同样来自本机真实合成；这些图片不是物理双机录屏。
 
 ![离开端蓝粉光晕](docs/images/departure.png)
 ![进入端蓝粉光圈](docs/images/arrival.png)
-![接管后短暂拖尾](docs/images/trail.png)
+![接管后连续圆周拖尾](docs/images/trail.png)
 
 </details>
 
@@ -128,7 +125,7 @@ Wi-Fi Direct 与现有上网连接能否并存，以及 VPN/TUN 是否拦截新�
 
 ## 预览版状态
 
-v0.1.8 已通过 67 组核心、20 项 Node、9 个双进程回环，以及真实 Electron 五页和后台窗口检查。胶囊 16 种布局/方向/状态的真实移动采样、6 种提示状态、文件定位调用与真实回收站操作通过；16 个透明合成场景和 4 个双向控制器实显通过。系统动画关闭/开启分支使用隔离测试，本机实测已开启时不修改、不提示。验证范围见[记录](docs/VALIDATION.md)。
+v0.1.9 已通过 70 组原生、20 项 Node、9 个真实双进程回环和真实 Electron 五页/后台窗口检查。新增真实磁盘文件拖入到接收端的完整流程，浅/深色胶囊底边透明检查，100/200/300% 缩放近闭环渐隐及有界轨迹检查，17 个原生透明合成场景（包含真实绘制线程圆周突发轨迹）；4 个双向控制器实显通过。详情见[验证记录](docs/VALIDATION.md)。
 
 两台物理电脑之间的 BLE 输入、不同缩放、VPN/Wi-Fi Direct 共存和长期稳定性仍需实机验收。本版没有完成同设备原版性能对照。
 
@@ -144,4 +141,4 @@ v0.1.8 已通过 67 组核心、20 项 Node、9 个双进程回环，以及真�
 
 应用遵循 [GNU GPL v3.0](LICENSE)，输入模块包含 [TwinDesk](https://github.com/InukaAsith/TwinDesk) / [Beamer](https://github.com/kalkman-code/beamer) 的贡献，见[第三方声明](THIRD_PARTY_NOTICES.md)。
 
-Git 仓库仅提交介绍、图片与许可；对应版本完整源码、构建脚本和依赖清单在 [Release 源码包](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.8/LinkedMouse-0.1.8-source.zip) 中提供，源码不展开提交到 Git。
+Git 仓库仅提交介绍、图片与许可；对应版本完整源码、构建脚本和依赖清单在 [Release 源码包](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.9/LinkedMouse-0.1.9-source.zip) 中提供，源码不展开提交到 Git。

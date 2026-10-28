@@ -52,3 +52,7 @@ in the published engine distribution.
 LinkedMouse 0.1.8 updates the adapted HUD to Chinese state text, physical-layout
 direction, top placement, visible-frame timing and paired return events. The
 continuous joined gradient trail is a new painter change (2026-10-29).
+
+LinkedMouse 0.1.9 removes the small HUD drop shadow, fixes the disk-backed
+FileList bridge and adds bounded timestamped visual history with non-repeating
+arc-length trail rasterization (2026-10-29).
