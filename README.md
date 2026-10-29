@@ -11,12 +11,12 @@
   <img alt="Windows" src="https://img.shields.io/badge/Windows-10%20%2F%2011-548BFF?logo=windows&logoColor=white">
   <img alt="Architecture" src="https://img.shields.io/badge/架构-x64-9985E8">
   <img alt="Bluetooth" src="https://img.shields.io/badge/连接-Bluetooth%20LE-ED98C5?logo=bluetooth&logoColor=white">
-  <img alt="Version" src="https://img.shields.io/badge/预览版本-v0.1.12-9985E8">
+  <img alt="Version" src="https://img.shields.io/badge/预览版本-v0.1.13-9985E8">
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-GPL--3.0-548BFF"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/Foursettingsun/LinkedMouse/releases/tag/v0.1.12"><strong>下载 v0.1.12</strong></a> ·
+  <a href="https://github.com/Foursettingsun/LinkedMouse/releases/tag/v0.1.13"><strong>下载 v0.1.13</strong></a> ·
   <a href="#第一次使用">连接步骤</a> ·
   <a href="#vpn-与连接方式">VPN 与连接</a> ·
   <a href="https://github.com/Foursettingsun/LinkedMouse/issues">反馈问题</a>
@@ -30,9 +30,9 @@
 
 | 文件 | 用途 | 下载 |
 | --- | --- | --- |
-| Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.12-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.12/LinkedMouse-0.1.12-setup.exe) |
-| Windows 便携版 | 解压后运行 `LinkedMouse.exe` | [LinkedMouse-0.1.12-portable.zip](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.12/LinkedMouse-0.1.12-portable.zip) |
-| SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.12/SHA256SUMS.txt) |
+| Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.13-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.13/LinkedMouse-0.1.13-setup.exe) |
+| Windows 便携版 | 解压后运行 `LinkedMouse.exe` | [LinkedMouse-0.1.13-portable.zip](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.13/LinkedMouse-0.1.13-portable.zip) |
+| SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.13/SHA256SUMS.txt) |
 
 系统要求：Windows 10 2004（19041）或更高版本 / Windows 11，x64。两端均需支持 Bluetooth LE，至少一端支持 BLE 外围设备广播角色。Wi-Fi Direct 加速另需兼容的无线网卡与驱动。
 
@@ -47,20 +47,17 @@
 
 还提供托盘驻留、开机启动、可信设备自动重连、内存中的最近共享记录，以及连接诊断导出。
 
-## 0.1.12 拖尾微小抖动过滤
+## 0.1.13 文件传输按钮重复修复
 
-**两台电脑从托盘退出旧版后升级到 0.1.12。配对信息和个人设置保留。**
+**从系统托盘退出旧版后安装 0.1.13，配对信息和个人设置保留。**
 
-- 拖尾加入约 1.5 个逻辑像素的微抖过滤，随屏幕 DPI 缩放。停稳后的细小晃动不再形成碎线，也不会持续刷新已经停止的拖尾。
-- 连续慢速移动相对最后有效位置累计，超过范围立即绘制；快速移动和明确反向立即跟随。只有拖尾视觉末端在微小范围内允许停稳，真实光标、点击与实际鼠标输入不受过滤。
-- 行进中细小交替摆动只修正最新曲线段的临时点，保留同向弧线、明确转向和已经完成的历史；140ms 尾部与接管后 1 秒效果保持。
-- 跨屏阻力同步、输入采集、默认 8ms 输入批次、GATT 可靠写入、MTU 分片、TLS 和心跳参数保持，过滤仅在独立绘制线程执行。
+- 修复文件传输页面中，同一任务随后台状态更新不断重复出现“在文件管理器中打开 / 删除文件 / 移除记录”的问题，每条任务只保留一组对应操作。
+- 接收、拒绝、取消、重试和完成后的操作统一随任务生成；任务重排、清空、切换页面及状态变化时，按钮与任务保持对应。
+- 任务内容未变化时继续复用现有页面节点，避免刷新造成重复控件与列表膨胀。
 
-已通过 85 组原生、20 项 Node、9 个双进程回环、真实 Electron 五页及 18 个原生透明图层场景；安装包、包内核心与界面校验通过。
+真实界面检查覆盖 100 次连续状态更新、14 种方向/状态组合、5 次页面往返及任务重排和状态切换。实际文件定位、回收站删除、移除记录、磁盘拖入和传输内容校验通过；Node 20 项、原生 85 组自检通过。
 
-新增了静止/停止微抖、单像素慢移累计、立即反向、行进横向噪声和过滤后的排序/重置回归。单机动态绘制与旧版做了交替对比，详细结果见验证记录；这些计时不代表物理双机蓝牙延迟。
-
-附件提供 Windows x64 安装包、便携版、对应 GPL-3.0 完整源码及 SHA-256 校验值。Git 仓库继续保留介绍、验证说明、图片和许可，完整源码随 Release 附件提供。
+附件提供 Windows x64 安装包、便携版、对应 GPL-3.0 完整源码及 SHA-256 校验值。Git 仓库保留介绍、验证说明、图片和许可，完整源码随 Release 附件提供。
 
 ## 第一次使用
 
