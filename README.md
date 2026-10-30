@@ -11,12 +11,12 @@
   <img alt="Windows" src="https://img.shields.io/badge/Windows-10%20%2F%2011-548BFF?logo=windows&logoColor=white">
   <img alt="Architecture" src="https://img.shields.io/badge/架构-x64-9985E8">
   <img alt="Bluetooth" src="https://img.shields.io/badge/连接-Bluetooth%20LE-ED98C5?logo=bluetooth&logoColor=white">
-  <img alt="Version" src="https://img.shields.io/badge/预览版本-v0.1.13-9985E8">
+  <img alt="Version" src="https://img.shields.io/badge/预览版本-v0.1.14-9985E8">
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-GPL--3.0-548BFF"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/Foursettingsun/LinkedMouse/releases/tag/v0.1.13"><strong>下载 v0.1.13</strong></a> ·
+  <a href="https://github.com/Foursettingsun/LinkedMouse/releases/tag/v0.1.14"><strong>下载 v0.1.14</strong></a> ·
   <a href="#第一次使用">连接步骤</a> ·
   <a href="#vpn-与连接方式">VPN 与连接</a> ·
   <a href="https://github.com/Foursettingsun/LinkedMouse/issues">反馈问题</a>
@@ -30,9 +30,9 @@
 
 | 文件 | 用途 | 下载 |
 | --- | --- | --- |
-| Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.13-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.13/LinkedMouse-0.1.13-setup.exe) |
-| Windows 便携版 | 解压后运行 `LinkedMouse.exe` | [LinkedMouse-0.1.13-portable.zip](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.13/LinkedMouse-0.1.13-portable.zip) |
-| SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.13/SHA256SUMS.txt) |
+| Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.14-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.14/LinkedMouse-0.1.14-setup.exe) |
+| Windows 便携版 | 解压后运行 `LinkedMouse.exe` | [LinkedMouse-0.1.14-portable.zip](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.14/LinkedMouse-0.1.14-portable.zip) |
+| SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.14/SHA256SUMS.txt) |
 
 系统要求：Windows 10 2004（19041）或更高版本 / Windows 11，x64。两端均需支持 Bluetooth LE，至少一端支持 BLE 外围设备广播角色。Wi-Fi Direct 加速另需兼容的无线网卡与驱动。
 
@@ -47,15 +47,18 @@
 
 还提供托盘驻留、开机启动、可信设备自动重连、内存中的最近共享记录，以及连接诊断导出。
 
-## 0.1.13 文件传输按钮重复修复
+## 0.1.14 休眠恢复与重复授权修复
 
-**从系统托盘退出旧版后安装 0.1.13，配对信息和个人设置保留。**
+**从系统托盘退出旧版后安装 0.1.14，配对和设置保留。安装后首次启动仍可能需要正常的管理员确认。**
 
-- 修复文件传输页面中，同一任务随后台状态更新不断重复出现“在文件管理器中打开 / 删除文件 / 移除记录”的问题，每条任务只保留一组对应操作。
-- 接收、拒绝、取消、重试和完成后的操作统一随任务生成；任务重排、清空、切换页面及状态变化时，按钮与任务保持对应。
-- 任务内容未变化时继续复用现有页面节点，避免刷新造成重复控件与列表膨胀。
+- 修复休眠/唤醒间隔被误判成输入故障，导致核心重启、管理员助手再次申请授权的问题。睡眠时暂停界面健康轮询，唤醒后使旧超时失效并刷新原有后端。
+- 原生看门狗改用不包含睡眠/休眠的 Windows 运行时间；从系统睡眠偏移识别唤醒，给予有限恢复宽限，复用仍存活的核心和助手。
+- 保留真正卡死、父进程退出和管道断开的恢复机制；没有关闭 UAC 或安装持久提权服务。程序真正退出后重新启动，仍按 Windows 规则授权。
+- 诊断增加运行态心跳时钟与恢复宽限标记，便于核对助手 PID 和恢复状态。输入批次、位移/绘制计时和蓝牙协议参数保持。
 
-真实界面检查覆盖 100 次连续状态更新、14 种方向/状态组合、5 次页面往返及任务重排和状态切换。实际文件定位、回收站删除、移除记录、磁盘拖入和传输内容校验通过；Node 20 项、原生 85 组自检通过。
+88 组原生、24 项 Node、9 个真实双进程回环及真实 Electron 五页检查通过。三轮模拟电源事件恢复保留核心 PID，三轮真实助手 IPC 恢复保留助手 PID；原有卡死助手退出/本机输入回退、文件页面和实际传输回归继续通过。
+
+自动验证模拟电源事件和计时跳变，未让整台电脑实际睡眠/休眠；不同电源模式与物理双机蓝牙恢复仍需按验收步骤确认。正常重开程序的授权与误重启导致的重复授权应分开判断。
 
 附件提供 Windows x64 安装包、便携版、对应 GPL-3.0 完整源码及 SHA-256 校验值。Git 仓库保留介绍、验证说明、图片和许可，完整源码随 Release 附件提供。
 

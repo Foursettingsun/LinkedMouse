@@ -1,3 +1,25 @@
+# 0.1.14：休眠恢复避免无故重新提权
+
+日期：2026-10-30。Windows x64 单机；未让整台机器进入睡眠/休眠。
+
+## 原因与实现
+
+- 界面健康检查未处理电源事件，休眠前未完成的请求或唤醒时的过期快照可能触发杀死核心；核心重新启动时重新启动管理员助手，造成新的 UAC。新增 Node 回归在旧版上失败。
+- Electron 现绑定 suspend/resume：睡眠前请求安全返回本机，暂停健康轮询；唤醒后使旧探测失效并刷新原后端，复用已有核心。恢复后的 15 秒内不以暂时未响应杀死核心。额外处理大于 8 秒的轮询间隔和遗漏 resume 的有界恢复，避免旧计时回调抢先运行或健康判断永久暂停。
+- 原生健康计时改用 `QueryUnbiasedInterruptTime`，不计睡眠/休眠；结合显式 `GetTickCount64` 的系统睡眠偏移，在电源事件回调之前识别唤醒，给予 5 秒运行时间宽限。用于运行态心跳、父进程心跳和恢复观察；实际位移/输入批次、绘制及蓝牙计时保持原有逻辑。
+- RPC 仅在确认唤醒后的超时路径，继续等待同一个请求一次，不重新发送。管道真断开、父进程退出及普通运行中的卡死保持原有处理；恢复宽限到期后超时重新生效。
+- `input.runtime` 增加 `heartbeatClock:awake` 和 `resumeGrace` 诊断。没有关闭 UAC、安装服务/计划任务或保存管理员凭据；启动新进程时的正常授权保持。
+
+## 验证结果
+
+- Node 24 项通过，新增 4 项覆盖跨休眠的待决健康请求、缺失通知、暂停轮询和遗漏 resume 后恢复真实故障检测。
+- 原生 88 组通过，新增睡眠/休眠时间跳变、5 秒宽限到期、Windows API 可用性及真实助手三轮模拟恢复后 PID 不变检查。原有卡死助手退出和本机输入回退检查继续通过。
+- 真实 Electron 五页通过，向当前 Electron 进程发送 3 轮模拟 suspend/resume，核心 PID、输入健康和已配对的回环连接保持。原文件页 100 次刷新/14 种组合及实际文件操作继续通过。
+- 真实双原生进程回环 9 个场景通过，包含可信重连、文件逐字节校验和 100 次后台健康请求。
+- 最终记录位于本地 `artifacts/power-0.1.14-*`；早期计时 API 导出兼容性候选未采用。自动结果不代表已完成物理睡眠/休眠、不同电源模式或双机 BLE 唤醒后的 UAC/延迟实测。
+
+接口依据：[不含睡眠时间的 Windows 计时](https://learn.microsoft.com/en-us/windows/win32/api/realtimeapiset/nf-realtimeapiset-queryunbiasedinterrupttime)、[Windows 启动时间](https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-gettickcount64)。
+
 # 0.1.13：传输任务的操作按钮重复
 
 日期：2026-10-29。Windows x64 本机真实 Electron 界面验证。
