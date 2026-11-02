@@ -26,12 +26,11 @@
 
 ## 下载
 
-两台电脑使用同一版本。安装包与便携版都包含运行环境，无需额外安装 Node.js 或 .NET。
+两台电脑使用同一版本。安装包包含运行环境，无需额外安装 Node.js 或 .NET。
 
 | 文件 | 用途 | 下载 |
 | --- | --- | --- |
 | Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.16-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.16/LinkedMouse-0.1.16-setup.exe) |
-| Windows 便携版 | 解压后运行 `LinkedMouse.exe` | [LinkedMouse-0.1.16-portable.zip](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.16/LinkedMouse-0.1.16-portable.zip) |
 | SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.16/SHA256SUMS.txt) |
 
 系统要求：Windows 10 2004（19041）或更高版本 / Windows 11，x64。两端均需支持 Bluetooth LE，至少一端支持 BLE 外围设备广播角色。Wi-Fi Direct 加速另需兼容的无线网卡与驱动。
