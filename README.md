@@ -11,12 +11,12 @@
   <img alt="Windows" src="https://img.shields.io/badge/Windows-10%20%2F%2011-548BFF?logo=windows&logoColor=white">
   <img alt="Architecture" src="https://img.shields.io/badge/架构-x64-9985E8">
   <img alt="Bluetooth" src="https://img.shields.io/badge/连接-Bluetooth%20LE-ED98C5?logo=bluetooth&logoColor=white">
-  <img alt="Version" src="https://img.shields.io/badge/预览版本-v0.1.15-9985E8">
+  <img alt="Version" src="https://img.shields.io/badge/预览版本-v0.1.16-9985E8">
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-GPL--3.0-548BFF"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/Foursettingsun/LinkedMouse/releases/tag/v0.1.15"><strong>下载 v0.1.15</strong></a> ·
+  <a href="https://github.com/Foursettingsun/LinkedMouse/releases/tag/v0.1.16"><strong>下载 v0.1.16</strong></a> ·
   <a href="#第一次使用">连接步骤</a> ·
   <a href="#vpn-与连接方式">VPN 与连接</a> ·
   <a href="https://github.com/Foursettingsun/LinkedMouse/issues">反馈问题</a>
@@ -30,9 +30,9 @@
 
 | 文件 | 用途 | 下载 |
 | --- | --- | --- |
-| Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.15-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.15/LinkedMouse-0.1.15-setup.exe) |
-| Windows 便携版 | 解压后运行 `LinkedMouse.exe` | [LinkedMouse-0.1.15-portable.zip](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.15/LinkedMouse-0.1.15-portable.zip) |
-| SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.15/SHA256SUMS.txt) |
+| Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.16-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.16/LinkedMouse-0.1.16-setup.exe) |
+| Windows 便携版 | 解压后运行 `LinkedMouse.exe` | [LinkedMouse-0.1.16-portable.zip](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.16/LinkedMouse-0.1.16-portable.zip) |
+| SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.16/SHA256SUMS.txt) |
 
 系统要求：Windows 10 2004（19041）或更高版本 / Windows 11，x64。两端均需支持 Bluetooth LE，至少一端支持 BLE 外围设备广播角色。Wi-Fi Direct 加速另需兼容的无线网卡与驱动。
 
@@ -47,20 +47,17 @@
 
 还提供托盘驻留、开机启动、可信设备自动重连、内存中的最近共享记录，以及连接诊断导出。
 
-## 0.1.15 跨屏点击与后台授权修复
+## 0.1.16
 
-**两台电脑均需从系统托盘选择“退出”后再安装/启动 0.1.15，并核对窗口页脚。只关闭或最小化窗口会继续运行旧版；配对和设置保留。**
+正常更新至 0.1.16。
 
-- 修复跨屏模式只等待原始输入按钮报告、漏掉钩子点击的问题。五个鼠标按键统一从钩子转发，解决缺少对应原始按键包时只能移动、滚动却无法点击的路径；延迟到达的原始报告不会重复点击。
-- 新按下清理旧捕获遗留的松键抑制，避免睡眠或安全桌面期间错过松键后影响下一次点击。Windows 拒绝按钮注入时恢复本机控制并记录诊断。
-- 保留 0.1.14 的休眠恢复保护。核心真的在后台退出后自动恢复时，先恢复普通输入，不自动再次弹管理员授权；需要管理员窗口支持时，到“鼠标与键盘”点击“启动输入助手”。正常重新启动程序仍可能需要首次授权。
-- 修复授权完成后管理员开关仍禁用的问题，并防止启动期间重复请求。原始位移/滚轮、8ms 输入批次和 BLE/TLS 参数保持，没有增加点击等待定时器。
+- 支持华为控制中心等 SYSTEM 托盘菜单的键鼠输入。
+- 完整启动应用时授权一次，运行期间核心恢复和重连复用权限代理。
+- 蓝牙协议及 8ms 输入批次保持。
 
-95 组原生、26 项 Node、11 个真实双进程回环及真实 Electron 五页检查通过。覆盖生产采集回调、五按钮/双击、拖拽落点、原始重复包、拒绝注入、后台实际重启不启动提权助手，以及既有文件与托盘回归。
+原生 101 组、Node 26 项和界面/双进程回归通过；本机 SYSTEM 助手与同一应用内恢复复用授权已验证，华为菜单最终操作由用户后续确认。
 
-当前为本机逻辑、真实进程及界面验证；物理双机 BLE、硬件鼠标驱动和整机睡眠尚未实测，不宣称实测延迟改善。对应验收步骤随源码和仓库说明提供。
-
-附件为 Windows x64 安装包、便携版、完整 GPL-3.0 源码和 SHA-256 校验值。Git 仓库仅保留介绍、验证说明、图片和许可，完整源码随发行附件提供。
+附件提供安装包、对应完整 GPL-3.0 源码和 SHA-256。
 
 ## 第一次使用
 
