@@ -11,12 +11,12 @@
   <img alt="Windows" src="https://img.shields.io/badge/Windows-10%20%2F%2011-548BFF?logo=windows&logoColor=white">
   <img alt="Architecture" src="https://img.shields.io/badge/架构-x64-9985E8">
   <img alt="Bluetooth" src="https://img.shields.io/badge/连接-Bluetooth%20LE-ED98C5?logo=bluetooth&logoColor=white">
-  <img alt="Version" src="https://img.shields.io/badge/预览版本-v0.1.16-9985E8">
+  <img alt="Version" src="https://img.shields.io/badge/预览版本-v0.1.19-9985E8">
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-GPL--3.0-548BFF"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/Foursettingsun/LinkedMouse/releases/tag/v0.1.16"><strong>下载 v0.1.16</strong></a> ·
+  <a href="https://github.com/Foursettingsun/LinkedMouse/releases/tag/v0.1.19"><strong>下载 v0.1.19</strong></a> ·
   <a href="#第一次使用">连接步骤</a> ·
   <a href="#vpn-与连接方式">VPN 与连接</a> ·
   <a href="https://github.com/Foursettingsun/LinkedMouse/issues">反馈问题</a>
@@ -30,8 +30,8 @@
 
 | 文件 | 用途 | 下载 |
 | --- | --- | --- |
-| Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.16-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.16/LinkedMouse-0.1.16-setup.exe) |
-| SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.16/SHA256SUMS.txt) |
+| Windows 安装包 | 按向导安装到电脑 | [LinkedMouse-0.1.19-setup.exe](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.19/LinkedMouse-0.1.19-setup.exe) |
+| SHA-256 校验值 | 校验下载文件完整性 | [SHA256SUMS.txt](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.19/SHA256SUMS.txt) |
 
 系统要求：Windows 10 2004（19041）或更高版本 / Windows 11，x64。两端均需支持 Bluetooth LE，至少一端支持 BLE 外围设备广播角色。Wi-Fi Direct 加速另需兼容的无线网卡与驱动。
 
@@ -46,17 +46,11 @@
 
 还提供托盘驻留、开机启动、可信设备自动重连、内存中的最近共享记录，以及连接诊断导出。
 
-## 0.1.16
+## 0.1.19
 
-正常更新至 0.1.16。
-
-- 支持华为控制中心等 SYSTEM 托盘菜单的键鼠输入。
-- 完整启动应用时授权一次，运行期间核心恢复和重连复用权限代理。
-- 蓝牙协议及 8ms 输入批次保持。
-
-原生 101 组、Node 26 项和界面/双进程回归通过；本机 SYSTEM 助手与同一应用内恢复复用授权已验证，华为菜单最终操作由用户后续确认。
-
-附件提供安装包、对应完整 GPL-3.0 源码和 SHA-256。
+- 副机暂时无法接管鼠标或连接路径切换时，主机会恢复本机鼠标。归还鼠标时先移除光标停放窗口。
+- 副机可在「鼠标与键盘 → 管理员窗口支持」开启「UAC 弹窗共享鼠标」。系统输入助手运行后，已配对的主机可在 Windows 授权确认框移动鼠标并左键点击。首次启动助手时，请在副机本机确认 Windows 授权。
+- 包含蓝牙建连重试和锁屏输入恢复修复。两端从托盘退出旧版后覆盖安装，配对和设置保留。
 
 ## 第一次使用
 
@@ -129,7 +123,7 @@ v0.1.10 已通过 76 组原生、20 项 Node、9 个双进程回环和真实 Ele
 
 两台物理电脑之间的 BLE 输入、不同缩放、VPN/Wi-Fi Direct 共存和长期稳定性仍需实机验收。本版没有完成同设备原版性能对照。
 
-文件传输入口为选择文件或拖入发送页。资源管理器跨屏拖文件、文件 Ctrl+C/Ctrl+V、断点续传、锁屏及 UAC 安全桌面控制不包含在本版中。
+文件传输入口为选择文件或拖入发送页。资源管理器跨屏拖文件、文件 Ctrl+C/Ctrl+V、断点续传、锁屏控制不包含在本版中。
 
 ## 隐私与问题反馈
 
@@ -141,4 +135,4 @@ v0.1.10 已通过 76 组原生、20 项 Node、9 个双进程回环和真实 Ele
 
 应用遵循 [GNU GPL v3.0](LICENSE)，输入模块包含 [TwinDesk](https://github.com/InukaAsith/TwinDesk) / [Beamer](https://github.com/kalkman-code/beamer) 的贡献，见[第三方声明](THIRD_PARTY_NOTICES.md)。
 
-Git 仓库仅提交介绍、图片与许可；对应版本完整源码、构建脚本和依赖清单在 [Release 源码包](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.9/LinkedMouse-0.1.9-source.zip) 中提供，源码不展开提交到 Git。
+Git 仓库仅提交介绍、图片与许可；对应版本完整源码、构建脚本和依赖清单在 [Release 源码包](https://github.com/Foursettingsun/LinkedMouse/releases/download/v0.1.19/LinkedMouse-0.1.19-source.zip) 中提供，源码不展开提交到 Git。
